@@ -19,7 +19,7 @@ def new_game(
     try:
         result = game_service.create_new_game(ua, session)
     except ValueError as e:
-        # Temporarily log to the server terminal
+        # Temporarily log to the server's console
         print(e)
 
         return APIResponse(
