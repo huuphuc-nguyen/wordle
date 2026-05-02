@@ -20,7 +20,7 @@ app/
 ├── schemas/        # Request and response shapes
 │   ├── request/
 │   └── response/
-├── scripts/        # One-off scripts (seed_words)
+├── scripts/        # One-off and scheduled scripts (seed_words, cleanup_games)
 ├── services/       # Business logic (game_service, session_service)
 ├── db.py           # Database engine and session
 └── main.py         # App entry point
@@ -65,6 +65,23 @@ uv run python -m app.scripts.seed_words
 **5. Start the server**
 ```bash
 uv run fastapi dev app/main.py
+```
+
+## Maintenance Scripts
+
+| Script | Description |
+|--------|-------------|
+| `app.scripts.seed_words` | Populate the Word table from `data/words.txt` |
+| `app.scripts.cleanup_games` | Delete abandoned active games older than 30 minutes |
+
+Run any script with:
+```bash
+uv run python -m app.scripts.<script_name>
+```
+
+Schedule `cleanup_games` with cron (every 30 min):
+```
+*/30 * * * * cd /path/to/backend && uv run python -m app.scripts.cleanup_games
 ```
 
 ## Session Security

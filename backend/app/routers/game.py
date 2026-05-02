@@ -35,10 +35,10 @@ def new_game(
     response.set_cookie(
         key="session_token",
         value=session_token,
-        httponly=True,   # JS cannot read this cookie
-        secure=True,     # HTTPS only
+        httponly=True,  # JS cannot read this cookie
+        secure=True,  # HTTPS only
         samesite="strict",
-        max_age=1800,    # 30 min, matches JWT expiry
+        max_age=1800,  # 30 min, matches JWT expiry
     )
     return APIResponse(status=APIStatus.SUCCESS, data=result, code=200)
 
@@ -55,14 +55,13 @@ def guess(
     # Decode the game_id from the token without trusting the client to send it
     game_id = session_service.get_game_id_from_token(token)
 
-    # 401 when: token is missing, expired, tampered, or game_id doesn't match
-    if not session_service.verify_token(token, game_id):
+    # 401 when: token is missing, expired, tampered
+    if game_id is None:
         return APIResponse(
             status=APIStatus.ERROR, message="Invalid or expired session", code=401
         )
 
     try:
-        assert game_id is not None  # guaranteed by verify_token above
         result = game_service.submit_guess(game_id, body, session)
     except ValueError as e:
         # Invalid word, game not found, or game already over
