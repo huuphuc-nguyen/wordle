@@ -22,7 +22,9 @@ def create_token(game_id: str, ua: str) -> str:
 
 def verify_token(token: str, game_id: str, ua: str) -> bool:
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(
+            token, SECRET_KEY, algorithms=[ALGORITHM]
+        )  # auto check expiry
         return payload["game_id"] == game_id and payload["ua"] == ua
     except jwt.PyJWTError:
         return False

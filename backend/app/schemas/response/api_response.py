@@ -9,3 +9,4 @@ class APIResponse(BaseModel):
     status: APIStatus
     message: Optional[str] = None
     data: Optional[Any] = None
+    code: int
