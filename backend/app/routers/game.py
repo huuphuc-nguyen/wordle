@@ -17,7 +17,7 @@ def new_game(
 
     # New game logic
     try:
-        result = game_service.create_new_game(ua, session)
+        result = game_service.create_new_game(session)
     except ValueError as e:
         # Temporarily log to the server's console
         print(e)
