@@ -1,0 +1,39 @@
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# uv
+uv.lock
+
+# Environment variables
+.env
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+# FastAPI / testing
+.pytest_cache/
+
+# Docker
+*.pid
+
+# Type checking
+.mypy_cache/
+
+# Database files (if any local sqlite)
+*.db
