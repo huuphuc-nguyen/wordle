@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from fastapi import FastAPI  # noqa: E402 Ruff complaing about import order
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 from sqlmodel import SQLModel  # noqa: E402
 
 from app.db import engine  # noqa: E402
@@ -27,6 +28,18 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",          # Vite dev server
+        "https://felixnguyen.dev",
+        "https://wordle.felixnguyen.dev",
+    ],
+    allow_credentials=True,   # required for cookies to be sent cross-origin
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(health_router)
 app.include_router(game_router)
