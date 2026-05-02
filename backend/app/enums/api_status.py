@@ -1,4 +1,4 @@
-# app/enums/api_status.py
+"""APIStatus — top-level status field used in every APIResponse envelope."""
 
 from enum import Enum
 
