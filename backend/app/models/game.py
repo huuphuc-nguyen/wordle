@@ -24,7 +24,7 @@ class Game(SQLModel, table=True):
     attempts: int = Field(default=0)
 
     # Game lifecycle state — active, won, or lost
-    status: str = Field(default=GameStatus.ACTIVE)
+    status: GameStatus = Field(default=GameStatus.ACTIVE)
 
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), index=True

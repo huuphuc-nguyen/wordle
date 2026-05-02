@@ -11,7 +11,10 @@ from fastapi import FastAPI  # noqa: E402 Ruff complaing about import order
 from sqlmodel import SQLModel  # noqa: E402
 
 from app.db import engine  # noqa: E402
-from app.models import game, word  # noqa: E402, F401 — imported so SQLModel registers the tables
+from app.models import (  # noqa: E402, F401 — imported so SQLModel registers the tables
+    game,
+    word,
+)
 from app.routers.game import router as game_router  # noqa: E402
 from app.routers.health import router as health_router  # noqa: E402
 
