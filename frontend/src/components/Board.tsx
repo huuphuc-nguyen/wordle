@@ -1,0 +1,45 @@
+type Props = {
+  guesses: string[];
+  scores: (string | null)[][];
+};
+
+function getColor(score: string | null) {
+  switch (score) {
+    case "correct":
+      return "bg-green-500 text-white";
+    case "present":
+      return "bg-yellow-500 text-white";
+    case "absent":
+      return "bg-gray-500 text-white";
+    default:
+      return "bg-white border-gray-300";
+  }
+}
+
+function Board({ guesses, scores }: Props) {
+  return (
+    <div className="flex flex-col gap-2 justify-center items-center">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="flex gap-2">
+          {Array.from({ length: 5 }).map((_, j) => {
+            const letter = guesses[i]?.[j] || "";
+            const score = scores?.[i]?.[j] ?? null;
+
+            return (
+              <div
+                key={j}
+                className={`w-16 h-16 rounded-xl border flex items-center justify-center text-xl font-bold
+                  ${getColor(score)}
+                `}
+              >
+                {letter}
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default Board;

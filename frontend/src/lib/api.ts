@@ -6,3 +6,8 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const startGame = async () => {
+  const response = await api.get("/newgame");
+  return response.data;
+};
