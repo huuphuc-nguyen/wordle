@@ -7,7 +7,7 @@ function getKeyColor(state: string) {
     case "correct":
       return "bg-emerald-400 text-white border-black";
     case "present":
-      return "bg-teal-300 text-white border-black";
+      return "bg-yellow-400 text-white border-black";
     case "absent":
       return "bg-gray-300 text-gray-400 border-black";
     default:

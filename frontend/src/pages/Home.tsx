@@ -7,8 +7,8 @@ const RULES = [
   "Each guess must be a valid word — press Enter to submit.",
   "After each guess, the tiles show how close you were:",
   "🟩 Green — correct letter, correct position.",
-  "🟨 Yellow — correct letter, wrong position.",
-  "⬜ Grey — letter not in the word.",
+  "🟡 Yellow — correct letter, wrong position.",
+  "⬛ Grey — letter not in the word.",
 ];
 
 function Home() {
