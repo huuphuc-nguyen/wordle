@@ -43,6 +43,24 @@ def new_game(
     return APIResponse(status=APIStatus.SUCCESS, data=result, code=200)
 
 
+@router.get("/secret", response_model=APIResponse)
+def get_secret(request: Request, session: Session = Depends(get_session)):
+    """Return the secret word — only if the game is over (won or lost)."""
+
+    token = request.cookies.get("session_token")
+    game_id = session_service.get_game_id_from_token(token)
+
+    if game_id is None:
+        return APIResponse(status=APIStatus.ERROR, message="Invalid or expired session", code=401)
+
+    try:
+        result = game_service.get_secret_word(game_id, session)
+    except ValueError as e:
+        return APIResponse(status=APIStatus.ERROR, message=str(e), code=400)
+
+    return APIResponse(status=APIStatus.SUCCESS, data=result, code=200)
+
+
 @router.post("/guess", response_model=APIResponse)
 def guess(
     request: Request, body: GuessRequest, session: Session = Depends(get_session)

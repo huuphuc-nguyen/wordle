@@ -13,6 +13,16 @@ from app.schemas.response.newgame_response import NewGameResponse
 PRIORITY = {"correct": 3, "present": 2, "absent": 1, "unknown": 0}
 
 
+def get_secret_word(game_id: str, session: Session) -> dict:
+    """Return the secret word only if the game is finished (won or lost)."""
+    game = session.exec(
+        select(Game).where(Game.uuid == game_id, Game.status != GameStatus.ACTIVE)
+    ).first()
+    if not game:
+        raise ValueError("Game not found or still in progress")
+    return {"secret_word": game.secret_word}
+
+
 def _get_random_word(session: Session) -> str:
     """Pick one random word from the word table."""
     word = session.exec(select(Word).order_by(func.random()).limit(1)).first()
