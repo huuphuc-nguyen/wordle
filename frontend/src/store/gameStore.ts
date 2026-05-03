@@ -14,14 +14,15 @@ type GameState = {
   setStatus: (status: GameStatus) => void;
   setKeyboard: (keyboard: Record<string, string>) => void;
   reset: () => void;
-  inputChar: (char: character) => void;
+  inputChar: (char: string) => void;
+  deleteChar: () => void;
 };
 
 const EMPTY_SCORES = () =>
   Array.from({ length: 6 }, () => Array<string | null>(5).fill(null));
 
 export const useGameStore = create<GameState>((set) => ({
-  guesses: [],
+  guesses: ["", "", "", "", "", ""],
   currentGuessIndex: 0,
   scores: EMPTY_SCORES(),
   status: "active",
@@ -32,7 +33,11 @@ export const useGameStore = create<GameState>((set) => ({
       const newScores = state.scores.map((row) => [...row]);
       newScores[state.currentGuessIndex] = score;
       return {
-        guesses: [...state.guesses, guess],
+        guesses: [
+          ...state.guesses.slice(0, state.currentGuessIndex),
+          guess,
+          ...state.guesses.slice(state.currentGuessIndex + 1),
+        ],
         scores: newScores,
         currentGuessIndex: state.currentGuessIndex + 1,
       };
@@ -42,14 +47,29 @@ export const useGameStore = create<GameState>((set) => ({
 
   setKeyboard: (keyboard) => set({ keyboard }),
 
+  deleteChar: () =>
+    set((state) => {
+      const currentGuess = state.guesses[state.currentGuessIndex];
+      if (!currentGuess.length) return state;
+      const newGuess = currentGuess.slice(0, -1);
+      return {
+        guesses: [
+          ...state.guesses.slice(0, state.currentGuessIndex),
+          newGuess,
+          ...state.guesses.slice(state.currentGuessIndex + 1),
+        ],
+      };
+    }),
+
   inputChar: (char) => {
     set((state) => {
       const currentGuess = state.guesses[state.currentGuessIndex];
       const newGuess = currentGuess + char;
       return {
         guesses: [
-          ...state.guesses.slice(0, state.currentGuessIndex - 1),
+          ...state.guesses.slice(0, state.currentGuessIndex),
           newGuess,
+          ...state.guesses.slice(state.currentGuessIndex + 1),
         ],
       };
     });
@@ -57,7 +77,7 @@ export const useGameStore = create<GameState>((set) => ({
 
   reset: () =>
     set({
-      guesses: [],
+      guesses: ["", "", "", "", "", ""],
       currentGuessIndex: 0,
       scores: EMPTY_SCORES(),
       status: "active",
