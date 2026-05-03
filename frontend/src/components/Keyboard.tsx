@@ -2,6 +2,10 @@ import { useGameStore } from "@/store/gameStore";
 
 const ROWS = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
 
+type Props = {
+  onKey: (key: string) => void;
+};
+
 function getKeyColor(state: string) {
   switch (state) {
     case "correct":
@@ -15,21 +19,38 @@ function getKeyColor(state: string) {
   }
 }
 
-function Keyboard() {
+function Keyboard({ onKey }: Props) {
   const keyboard = useGameStore((state) => state.keyboard);
 
   return (
     <div className="flex flex-col items-center gap-2">
-      {ROWS.map((row) => (
+      {ROWS.map((row, rowIndex) => (
         <div key={row} className="flex gap-1.5">
+          {rowIndex === 2 && (
+            <button
+              onClick={() => onKey("enter")}
+              className="h-14 px-2 rounded-lg border-2 border-black shadow-md flex items-center justify-center text-xs font-bold uppercase bg-white text-gray-700 active:scale-95 transition-transform select-none"
+            >
+              Enter
+            </button>
+          )}
           {row.split("").map((letter) => (
-            <div
+            <button
               key={letter}
-              className={`w-10 h-14 rounded-lg border-2 shadow-md flex items-center justify-center text-sm font-bold uppercase transition-colors ${getKeyColor(keyboard[letter] ?? "unknown")}`}
+              onClick={() => onKey(letter)}
+              className={`w-10 h-14 rounded-lg border-2 shadow-md flex items-center justify-center text-sm font-bold uppercase active:scale-95 transition-transform select-none ${getKeyColor(keyboard[letter] ?? "unknown")}`}
             >
               {letter}
-            </div>
+            </button>
           ))}
+          {rowIndex === 2 && (
+            <button
+              onClick={() => onKey("backspace")}
+              className="h-14 px-2 rounded-lg border-2 border-black shadow-md flex items-center justify-center text-xs font-bold bg-white text-gray-700 active:scale-95 transition-transform select-none"
+            >
+              ⌫
+            </button>
+          )}
         </div>
       ))}
     </div>

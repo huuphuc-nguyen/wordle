@@ -30,11 +30,8 @@ export const useStartGame = () => {
     reset();
   };
 
-  const handleKeyUp = async (e: KeyboardEvent) => {
-    // Block all input when game is over — player must press restart
+  const handleKey = async (key: string) => {
     if (status !== "active") return;
-
-    const key = e.key.toLowerCase();
 
     if (/^[a-z]$/.test(key)) {
       if (guesses[currentGuessIndex].length >= 5) {
@@ -60,7 +57,6 @@ export const useStartGame = () => {
         const response = await submitGuess(currentGuess);
 
         if (response.code === 401) {
-          // Session expired — show restart button instead of auto-restarting
           toast.error(MESSAGES.SESSION_EXPIRED);
           setStatus("lost");
           return;
@@ -71,7 +67,6 @@ export const useStartGame = () => {
             toast.error(response.message);
             return;
           }
-          // Game not found or already over — show restart button
           toast.error(response.message);
           setStatus("lost");
           return;
@@ -91,15 +86,14 @@ export const useStartGame = () => {
   };
 
   useEffect(() => {
+    const handleKeyUp = (e: KeyboardEvent) => handleKey(e.key.toLowerCase());
     window.addEventListener("keyup", handleKeyUp);
-    return () => {
-      window.removeEventListener("keyup", handleKeyUp);
-    };
+    return () => window.removeEventListener("keyup", handleKeyUp);
   }, [guesses, currentGuessIndex, status]);
 
   useEffect(() => {
     restart();
   }, []);
 
-  return { restart };
+  return { restart, handleKey };
 };

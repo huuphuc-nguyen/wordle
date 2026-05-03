@@ -10,7 +10,7 @@ function Game() {
   const guesses = useGameStore((state) => state.guesses);
   const scores = useGameStore((state) => state.scores);
   const status = useGameStore((state) => state.status);
-  const { restart } = useStartGame();
+  const { restart, handleKey } = useStartGame();
   const [secretWord, setSecretWord] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,11 +24,11 @@ function Game() {
   }, [status]);
 
   return (
-    <div className="cosmic-bg w-full h-dvh flex flex-col justify-center items-center gap-6 px-4">
+    <div className="cosmic-bg w-full min-h-dvh flex flex-col justify-center items-center gap-4 px-4 py-8 overflow-y-auto">
 
       {/* Title */}
       <div className="flex flex-col items-center gap-1">
-        <h1 className="gradient-text text-5xl font-black tracking-widest uppercase select-none">
+        <h1 className="gradient-text text-4xl font-black tracking-widest uppercase select-none">
           Wordle
         </h1>
         <div className="h-px w-24 bg-emerald-300/60 rounded-full" />
@@ -60,7 +60,7 @@ function Game() {
       )}
 
       {/* Keyboard — standalone, no card */}
-      <Keyboard />
+      <Keyboard onKey={handleKey} />
     </div>
   );
 }

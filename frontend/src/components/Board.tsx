@@ -28,7 +28,7 @@ function Board({ guesses, scores }: Props) {
             return (
               <div
                 key={j}
-                className={`w-16 h-16 rounded-xl border-2 shadow-md flex items-center justify-center text-xl font-bold
+                className={`w-14 h-14 rounded-xl border-2 shadow-md flex items-center justify-center text-lg font-bold
                   ${getColor(score)}
                 `}
               >
