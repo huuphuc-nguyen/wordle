@@ -43,14 +43,16 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
 
-      # TODO: update path before enabling
-      # - name: Update GitOps repo with new backend image tag
-      #   run: |
-  #         git config --global user.email "actions@github.com"
-  #         git config --global user.name "GitHub Actions"
-  #         git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/huuphuc-nguyen/gitops-infras.git
-  #         cd gitops-infras
-  #         yq eval ".backend.image.tag = \"${{ steps.image-tag.outputs.tag }}\"" -i projects/wordle/values.yaml
-  #         git add .
-  #         git commit -m "cicd: update backend image tag to ${{ steps.image-tag.outputs.tag }}"
-  #         git push
+      - name: Update GitOps repo with new backend image tag
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+          git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/huuphuc-nguyen/gitops-infras.git
+          cd gitops-infras
+
+          yq eval ".be.image.tag = \"${{ steps.image-tag.outputs.tag }}\"" -i projects/personal-project/apps/wordle/values.yaml
+
+          git add .
+          git commit -m "cicd: update backend image tag to ${{ steps.image-tag.outputs.tag }}"
+          git push

@@ -1,73 +1,73 @@
-# React + TypeScript + Vite
+# Wordle Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite frontend for the Wordle game.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19** — UI framework
+- **TypeScript** — type safety
+- **Vite** — build tool
+- **Zustand** — state management
+- **Tailwind CSS v4** — styling
+- **Axios** — HTTP client
+- **pnpm** — package manager
 
-## React Compiler
+## Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── assets/         # Static assets (background image)
+├── components/     # Reusable UI components (Board, Keyboard)
+├── constant/       # Shared constants (messages)
+├── hooks/          # Custom hooks (useStartGame)
+├── lib/            # Axios instance and API calls
+├── pages/          # Route pages (Home, Game)
+├── store/          # Zustand game state
+└── main.tsx        # App entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `VITE_API_URL` | Yes | Backend base URL (e.g. `http://localhost:8000`) |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+> **Note:** Vite bakes environment variables into the bundle at **build time**, not runtime.
+> You must provide `VITE_API_URL` when building the image — it cannot be changed after the image is built.
+
+Create a `.env` file for local development:
+```bash
+VITE_API_URL=http://localhost:8000
 ```
+
+## Local Development
+
+**1. Install dependencies**
+```bash
+pnpm install
+```
+
+**2. Start the dev server**
+```bash
+pnpm dev
+```
+
+App runs at `http://localhost:5173`.
+
+## Docker
+
+> **Important:** `VITE_API_URL` must be passed as a build argument — it is baked into the bundle at build time.
+
+**Build**
+```bash
+docker build \
+  --build-arg VITE_API_URL=http://localhost:8000 \
+  -t wordle-fe .
+```
+
+**Run**
+```bash
+docker run -p 3000:3000 wordle-fe
+```
+
+App is served at `http://localhost:3000`.

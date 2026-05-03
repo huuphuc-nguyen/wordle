@@ -26,15 +26,28 @@ app/
 └── main.py         # App entry point
 ```
 
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `SECRET_KEY` | Secret used to sign JWT session tokens |
+
+Copy the example file and fill in the values:
+```bash
+cp .env.example .env
+```
+
 ## API Endpoints
 
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/api/newgame` | Start a new game, sets session cookie |
 | POST | `/api/guess` | Submit a guess, returns score and game state |
+| GET | `/api/secret` | Return secret word (only when game is over) |
 | GET | `/health/health` | Health check |
 
-## Local Setup
+## Local Development
 
 **1. Start PostgreSQL**
 ```bash
@@ -47,24 +60,34 @@ docker run -d \
   postgres:15
 ```
 
-**2. Configure environment**
-```bash
-cp .env.example .env
-```
-
-**3. Install dependencies**
+**2. Install dependencies**
 ```bash
 uv sync
 ```
 
-**4. Seed the word list**
+**3. Seed the word list**
 ```bash
 uv run python -m app.scripts.seed_words
 ```
 
-**5. Start the server**
+**4. Start the dev server**
 ```bash
 uv run fastapi dev app/main.py
+```
+
+## Docker
+
+**Build**
+```bash
+docker build -t wordle-be .
+```
+
+**Run**
+```bash
+docker run -p 8000:8000 \
+  -e DATABASE_URL=postgresql://user:password@host.containers.internal:5432/wordle_db \
+  -e SECRET_KEY=your-secret-key \
+  wordle-be
 ```
 
 ## Maintenance Scripts
