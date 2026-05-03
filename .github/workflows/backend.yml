@@ -38,9 +38,7 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: |
-            ghcr.io/${{ github.repository }}/backend:${{ steps.image-tag.outputs.tag }}
-            ghcr.io/${{ github.repository }}/backend:latest
+          tags: ghcr.io/${{ github.repository }}/backend:${{ steps.image-tag.outputs.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
