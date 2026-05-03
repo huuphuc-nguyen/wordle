@@ -6,13 +6,13 @@ type Props = {
 function getColor(score: string | null) {
   switch (score) {
     case "correct":
-      return "bg-green-500 text-white";
+      return "bg-emerald-400 text-white border-black";
     case "present":
-      return "bg-yellow-500 text-white";
+      return "bg-teal-300 text-white border-black";
     case "absent":
-      return "bg-gray-500 text-white";
+      return "bg-gray-300 text-gray-400 border-black";
     default:
-      return "bg-white border-gray-300";
+      return "bg-white text-gray-800 border-black";
   }
 }
 
@@ -28,7 +28,7 @@ function Board({ guesses, scores }: Props) {
             return (
               <div
                 key={j}
-                className={`w-16 h-16 rounded-xl border flex items-center justify-center text-xl font-bold
+                className={`w-16 h-16 rounded-xl border-2 shadow-md flex items-center justify-center text-xl font-bold
                   ${getColor(score)}
                 `}
               >

@@ -17,3 +17,8 @@ export const submitGuess = async (word: string) => {
   const response = await api.post("/api/guess", { word });
   return response.data;
 };
+
+export const fetchSecretWord = async () => {
+  const response = await api.get("/api/secret");
+  return response.data;
+};
