@@ -9,16 +9,16 @@ export const api = axios.create({
 });
 
 export const startGame = async () => {
-  const response = await api.get("/api/newgame");
+  const response = await api.get("/apiwordle/api/newgame");
   return response.data;
 };
 
 export const submitGuess = async (word: string) => {
-  const response = await api.post("/api/guess", { word });
+  const response = await api.post("/apiwordle/api/guess", { word });
   return response.data;
 };
 
 export const fetchSecretWord = async () => {
-  const response = await api.get("/api/secret");
+  const response = await api.get("/apiwordle/api/secret");
   return response.data;
 };
