@@ -70,4 +70,4 @@ docker build \
 docker run -p 3000:3000 wordle-fe
 ```
 
-App is served at `http://localhost:3000`.
+App is served at `http://localhost:3000`..
