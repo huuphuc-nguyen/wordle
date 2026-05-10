@@ -37,9 +37,9 @@ Browser → Ingress (TLS) → Backend (FastAPI)        [apiwordle.felixnguyen.de
 
 | Service | URL |
 |---------|-----|
-| Frontend | https://wordle.felixnguyen.dev |
-| Backend API | https://apiwordle.felixnguyen.dev |
-| API Docs | https://apiwordle.felixnguyen.dev/docs |
+| Frontend | https://felixnguyen.dev/wordle |
+| Backend API | https://felixnguyen.dev/apiwordle |
+| API Docs | https://felixnguyen.dev/apiwordle/docs |
 
 ---
 
